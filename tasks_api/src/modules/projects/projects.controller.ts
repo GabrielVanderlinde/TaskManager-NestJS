@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
 } from "@nestjs/common";
@@ -23,7 +24,7 @@ export class ProjectsController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  findOne(@Param("id", ParseUUIDPipe) id: string) {
     return this.projectsService.findById(id);
   }
 
@@ -33,12 +34,15 @@ export class ProjectsController {
   }
 
   @Put(":id")
-  update(@Param("id") id: string, @Body() data: ProjectRequestDto): string {
+  update(
+    @Param("id", ParseUUIDPipe) id: string,
+    @Body() data: ProjectRequestDto,
+  ): string {
     return this.projectsService.update(id, data);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
+  remove(@Param("id", ParseUUIDPipe) id: string) {
     return this.projectsService.remove(id);
   }
 }
